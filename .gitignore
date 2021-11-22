@@ -104,4 +104,4 @@ food_img/
 test.py
 
 nutrition/settings.py
-imageDetection.py
+detection/imageDetection.py
