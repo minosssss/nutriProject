@@ -96,7 +96,7 @@ section {
 }
 
 .img-container #custom-btn {
-  margin-top: 30px;
+  margin: 1rem 0 1rem 0;
   width: 100%;
   display: block;
   outline: none;
@@ -108,3 +108,7 @@ section {
   cursor: pointer;
 }
 
+#serve_number {
+  justify-content: space-around;
+  display: flex;
+}

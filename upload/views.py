@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, DetailView, DeleteView
+from django.views.generic import CreateView, DetailView, DeleteView, UpdateView
 
 from upload.detection.imageDetection import imageDetection
 from upload.decorator import check_user
@@ -61,9 +61,18 @@ class UploadDetailView(DetailView):
         context['food'] = food
         return context
 
+    def get_success_url(self):
+        return reverse('upload:result',kwargs={'pk':self.object.pk})
 
 def notice_delete_view(request, pk):
     temp_upload = Upload.objects.get(id=pk)
     if temp_upload.user == request.user or request.user.level == '0':
         temp_upload.delete()
         return redirect("upload:main")
+
+
+class UploadResultView(UpdateView):
+    model = Upload
+    context_object_name = 'result'
+    form_class = UserUploadForm
+    template_name = 'upload/result.html'

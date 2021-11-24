@@ -5,15 +5,15 @@
     <!-- Section-->
     <section>
         <div class="main-text">
-            <h2 class="display-5 fw-bolder">{{ upload_result.created_at | date:"m월d일"}}</h2>
-            <h4 class="display-5"> {{ upload_result.mealtimes }} 식사 영양정보</h4>
+            <h2 class="display-5 fw-bolder">{{ result.created_at | date:"m월d일"}}</h2>
+            <h4 class="display-5"> {{ result.mealtimes }} 식사 영양정보</h4>
         </div>
-        <form action="{% url 'upload:detail' pk=upload_result.pk %}" method="post" enctype="multipart/form-data">
+        <form action="{% url 'upload:result' pk=result.pk %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="img-container">
                 <div class="wrapper">
                     <div class="image">
-                        <img src='{{ upload_result.image.url }}' alt='' />
+                        <img src='{{ result.image.url }}' alt='' />
                     </div>
                     <div id="img-name">File name here</div>
                 </div>
@@ -78,9 +78,6 @@
                     {% endfor %}
                 {% endif %}
                 <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="upload">
-                <button class="btn btn-primary mt-4 mb-4" id="custom-btn">
-                    <a class="text-white" style="text-decoration: none;" href="{% url 'upload:result' pk=upload_result.pk %}">CHANGE INFO</a>
-                </button>
                 </div>
         </form>
         <script src="{% static 'js/upload.js' %}"></script>
