@@ -32,6 +32,8 @@ defaultBtn.addEventListener("change",function (){
 });
 
 
+
+
 // $('#fileup').change(function(){
 // //here we take the file extension and set an array of valid extensions
 //     var res=$('#fileup').val();

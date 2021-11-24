@@ -17,13 +17,28 @@
                     </div>
                     <div id="img-name">File name here</div>
                 </div>
-                <!-- {#                <input id="default-btn" type="file" hidden>#} -->
-                <div class="form-group">
-                    <input type="submit" type="file" hidden name="image" accept="image/*" class="form-control-file" title="" required="" id="default-btn">
-                    <button class="custom-btn" class="btn btn-dark" id="openModalBtn"  >
-                        <a class="text-white" style="text-decoration: none;" href="{% url 'upload:delete' pk=upload_result.pk %}">REPOST</a>
-                    </button>
+                <button type="button" id="custom-btn" class="btn btn-dark openModalBtn">
+                    REPOST
+                </button>
+                <!-- 모달 영역 -->
+                <div id="modalBox" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" id="myModalLabel">Information</h4>
+                            </div>
+                            <div class="modal-body">
+                                메인페이지로 돌아갑니다.
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-primary"  onclick="delete_modal()" >확인</button>
+                                <button type="button" class="btn btn-default" id="closeModalBtn">취소</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+
                 {% if food %}
                     {% for i in food %}
                         {{ i }}
@@ -41,14 +56,19 @@
         </form>
         <script src="{% static 'js/upload.js' %}"></script>
         <script>
+
             // 모달 버튼에 이벤트를 건다.
-            $('#openModalBtn').on('click', function(){
+            $('.openModalBtn').on('click', function(){
                 $('#modalBox').modal('show');
             });
             // 모달 안의 취소 버튼에 이벤트를 건다.
             $('#closeModalBtn').on('click', function(){
                 $('#modalBox').modal('hide');
             });
+            function delete_modal() {
+                location.replace('/detail/{{ upload_result.pk }}/delete/');
+            }
         </script>
+
     </section>
 {% endblock %}
