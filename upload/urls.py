@@ -15,7 +15,9 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from upload.views import UploadView, UploadDetailView
+from upload.views import UploadDetailView, UploadView, UploadDeleteView
+from django.conf import settings
+from django.conf.urls.static import static
 
 #해당 네임에서 url patterns에 있는 name의 url로 가주세요~!
 app_name = "upload"
@@ -23,4 +25,7 @@ app_name = "upload"
 urlpatterns = [
     path('', UploadView.as_view(), name='main'), #upload
     path('detail/<int:pk>', UploadDetailView.as_view(), name='detail'),
+    path('delete/<int:pk>',UploadDeleteView.as_view(), name='delete'),
+
 ]
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

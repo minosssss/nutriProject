@@ -2,19 +2,16 @@
 {% load bootstrap4 %}
 
 {% block content %}
-
     <div class="login_form">
         <div>
            <h4>Login</h4>
         </div>
         <div>
-            <form action="" method="post">
+            <form action="{% url 'accounts:login' %}" method="post">
                 {% csrf_token %}
                 {% bootstrap_form form %}
                 <input type="submit" id="custom-btn" class="btn btn-primary mt-4 mb-4" value="LOGIN">
             </form>
         </div>
     </div>
-
-
 {% endblock %}

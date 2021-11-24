@@ -20,7 +20,7 @@ class Upload(models.Model):
     mealtimes = models.CharField(choices=MEALTIME_CHOICE, max_length=20)
 
     def __str__(self):
-        return f'{self.user.user_id, self.user.n_code, self.created_at.date(), self.mealtimes}'
+        return f'{self.user.user_id, self.user.n_code, self.created_at, self.mealtimes, self.image}'
 
     class Meta:
         db_table = 'user_upload_info'

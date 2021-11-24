@@ -2,6 +2,8 @@ import os
 from uuid import uuid4
 from django.utils import timezone
 
+from upload.detection.imageDetection import imageDetection
+
 
 def upload_to_func(instance, filename):
     prefix = timezone.now().strftime("%Y/%m")

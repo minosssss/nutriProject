@@ -19,13 +19,16 @@
                 </div>
                 <!-- {#                <input id="default-btn" type="file" hidden>#} -->
                 <div class="form-group">
-                    <input type="file" hidden name="image" accept="image/*" class="form-control-file" title="" required="" id="default-btn">
-                    <button id="custom-btn" class="btn btn-dark">
-                        <a class="text-white" style="text-decoration: none;" href="{% url 'upload:main' %}">REPOST</a>
+                    <input type="submit" type="file" hidden name="image" accept="image/*" class="form-control-file" title="" required="" id="default-btn">
+                    <button class="custom-btn" class="btn btn-dark" id="openModalBtn"  >
+                        <a class="text-white" style="text-decoration: none;" href="{% url 'upload:delete' pk=upload_result.pk %}">REPOST</a>
                     </button>
                 </div>
-
-
+                {% if food %}
+                    {% for i in food %}
+                        {{ i }}
+                    {% endfor %}
+                {% endif %}
                 <label for="exampleSelect1" class="form-label5" placeholder="Meal Times"></label>
                 <select name=mealtimes id="id_mealtimes" class="form-select" placeholder="Meal Times">
                     <option value="" disabled selected hidden>How many servings did you eat? (General)</option>
@@ -37,5 +40,15 @@
             </div>
         </form>
         <script src="{% static 'js/upload.js' %}"></script>
+        <script>
+            // 모달 버튼에 이벤트를 건다.
+            $('#openModalBtn').on('click', function(){
+                $('#modalBox').modal('show');
+            });
+            // 모달 안의 취소 버튼에 이벤트를 건다.
+            $('#closeModalBtn').on('click', function(){
+                $('#modalBox').modal('hide');
+            });
+        </script>
     </section>
 {% endblock %}
