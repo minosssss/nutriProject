@@ -78,9 +78,9 @@
                     {% endfor %}
                 {% endif %}
                 <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="upload">
-                <button class="btn btn-primary mt-4 mb-4" id="custom-btn">
-                    <a class="text-white" style="text-decoration: none;" href="{% url 'upload:result' pk=upload_result.pk %}">CHANGE INFO</a>
-                </button>
+{#                <button class="btn btn-primary mt-4 mb-4" id="custom-btn">#}
+{#                    <a class="text-white" style="text-decoration: none;" href="{% url 'upload:result' pk=upload_result.pk %}">CHANGE INFO</a>#}
+{#                </button>#}
                 </div>
         </form>
         <script src="{% static 'js/upload.js' %}"></script>
