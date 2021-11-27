@@ -15,7 +15,7 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from upload.views import UploadDetailView, UploadView, notice_delete_view, UploadResultView
+from upload.views import UploadView, notice_delete_view, UploadTempView, UploadResultView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -24,9 +24,9 @@ app_name = "upload"
 
 urlpatterns = [
     path('', UploadView.as_view(), name='main'), #upload
-    path('detail/<int:pk>', UploadDetailView.as_view(), name='detail'),
-    path('detail/<int:pk>/delete/',notice_delete_view, name='delete'),
-    path('detail/<int:pk>/result/',UploadResultView.as_view(), name='result'),
+    path('detail/<slug:eaten_dt>', UploadResultView.as_view(), name='detail'),
+    path('temp/<int:pk>/delete/',notice_delete_view, name='delete'),
+    path('temp/<int:pk>',UploadTempView.as_view(), name='temp'),
 
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

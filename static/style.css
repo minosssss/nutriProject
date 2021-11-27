@@ -50,3 +50,10 @@ input{
     font-size: 0.5rem;
 }
 
+#test {
+ display: none;
+}
+
+#main_upload-page .form-group:first-child{
+    display: none;
+}

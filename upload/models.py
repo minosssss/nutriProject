@@ -1,4 +1,7 @@
 from django.db import models
+from django.forms import NumberInput
+from django.urls import reverse
+
 from accounts.models import User, Standard
 from upload.utils import upload_to_func
 
@@ -52,10 +55,10 @@ class UploadResult(models.Model):
     fat_rate = models.FloatField(blank=True, null=True)
     sodium_rate = models.FloatField(blank=True, null=True)
     total_cal = models.FloatField(blank=True, null=True)
-    create_dt = models.DateTimeField(auto_now_add=True)
+    eaten_dt = models.DateField(auto_created=False)
 
     def __str__(self):
-        return f'{self.user.user_id, self.user.n_code, self.food_code, self.total_cal}'
+        return f'{self.user, self.upload_id}'
 
     class Meta:
         db_table = 'upload_result'

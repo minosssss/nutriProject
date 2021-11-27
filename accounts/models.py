@@ -38,7 +38,7 @@ class Standard(models.Model):
         db_table = 'nutri_standard'
 
     def __str__(self):
-        return f'{self.n_code, self.carb, self.prot, self.fat, self.sodium}'
+        return f'{self.n_code}'
 
 
 # class UserManager(BaseUserManager):

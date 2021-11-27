@@ -3,7 +3,7 @@
 {% load static %}
 {% block content %}
     <!-- Section-->
-    <section>
+    <section id="main_upload-page">
         <div class="main-text">
             <h2 class="display-5 fw-bolder">사진을 업로드 해주세요!</h2>
             <h4 class="display-5">Please upload your pic!</h4>
@@ -22,51 +22,20 @@
                     <div id="img-cancle"><i class="fas fa-times"></i></div>
                     <div id="img-name">File name here</div>
                 </div>
-                <!-- {#                <input id="default-btn" type="file" hidden>#} -->
-                <div class="form-group">
-                    <input type="file" hidden name="image" accept="image/*" class="form-control-file" title="" required="" id="default-btn">
-                    <button onclick ="defaultBtnActive()" id="custom-btn" class="btn btn-dark">Choose a file</button>
-                </div>
+                <button onclick ="defaultBtnActive()" id="custom-btn" class="btn btn-dark">Choose a file</button>
+                {% bootstrap_form form %}
 
-
-                <label for="exampleSelect1" class="form-label5" placeholder="Meal Times"></label>
-                <select name=mealtimes required id="id_mealtimes" class="form-select" placeholder="Meal Times">
-                    <option value="" disabled selected hidden>Meal Time</option>
-                    <option>아침</option>
-                    <option>점심</option>
-                    <option>저녁</option>
-                </select>
-                <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="CONFIRM">
+                <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="next">
             </div>
         </form>
         <script src="{% static 'js/upload.js' %}"></script>
-        <!--
-        {#        <script>#}
-        {#            const imgName = document.querySelector('#img-name')#}
-        {#            const wrapper = document.querySelector('.wrapper')#}
-        {#            const defaultBtn = document.querySelector('#default-btn')#}
-        {#            const customtBtn = document.querySelector('#custom-btn')#}
-        {#            const img = document.querySelector('#custom-btn')#}
-        {#            let deleteExp = /[0-9a-zA-Z\^\&\'\@\{\}\[\}\,\$\=\!\-\#\(\)\.\%\+\~\_]+$/;#}
-        {#            function defaultBtnActive() {#}
-        {#                defaultBtn.click();#}
-        {#            }#}
-        {#            defaultBtn.addEventListener("change",function (){#}
-        {#                const file = this.files[0];#}
-        {#                if (file){#}
-        {#                    const reader = new FileReader();#}
-        {#                    reader.onload = function () {#}
-        {#                        const result = reader.result;#}
-        {#                        img.src = result;#}
-        {#                        wrapper.classList.add(".active");#}
-        {#                    }#}
-        {#                    reader.readAsDataURL(file)#}
-        {#                }#}
-        {#                if(this.value){#}
-        {#                    let valueStore = this.value.match(deleteExp);#}
-        {#                    imgName.textContent#}
-        {#                }#}
-        {#            });#}
-        {#        </script>#} -->
+
     </section>
 {% endblock %}
+
+<!--
+<div class="form-group">
+<input type="file" hidden name="image" accept="image/*" class="form-control-file" title="" required="" id="default-btn">
+<button onclick ="defaultBtnActive()" id="custom-btn" class="btn btn-dark">Choose a file</button>
+</div>
+<label for="exampleSelect1" class="form-label5" placeholder="Meal Times"></label> -->

@@ -112,3 +112,7 @@ section {
   justify-content: space-around;
   display: flex;
 }
+
+#id_eaten_dt {
+    margin-bottom: 1rem;
+}
