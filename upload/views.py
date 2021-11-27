@@ -95,36 +95,28 @@ class UploadTempView(TemplateView):
         user_sodium = user_nutri_data['sodium']
         user_cal = user.proper_cal
 
-        bio=[]
         food_list = self.get_food()
+        data = self.request.POST['eaten_dt']
+        upload_id = self.get_object().pk
+        if UploadResult.objects.filter(upload_id=upload_id).first():
+            raise Http404('이미 존재 합니다.')
+        else:
+            pass
         for n in range(len(food_list)):
             get_food = food_list[n]
             food_date = FoodBio.objects.values('cal', 'carb', 'prot', 'fat', 'sodium').get(food_nm=get_food)
-            bio.append(food_date)
-        total_cal = sum(item['cal'] for item in bio)
-        total_carb = sum(item['carb'] for item in bio)
-        total_prot = sum(item['prot'] for item in bio)
-        total_fat = sum(item['fat'] for item in bio)
-        total_sodium = sum(item['sodium'] for item in bio)
 
+            result = UploadResult.objects.create(food_id=FoodBio.objects.get(food_nm=get_food),
+                                                 upload_id=Upload.objects.get(id=upload_id),
+                                                 user_id=user.pk,
+                                                 eaten_dt=data,
+                                                 cal=food_date['cal'],
+                                                 carb=food_date['carb'],
+                                                 prot=food_date['prot'],
+                                                 fat=food_date['fat'],
+                                                 sodium=food_date['sodium'])
 
-        print(f"{(total_cal/user_cal*100):.2f}")
-        #UploadResult 테이블 데이터저장
-        form = UserEatenForm(self.request.POST)
-        upload_id = self.get_object().pk
-        if form.is_valid():
-            temp_result = form.save(commit=False)
-            temp_result.user_id = user.pk
-            temp_result.upload_id = Upload.objects.get(id=upload_id)
-            temp_result.carb_rate = f"{(total_carb/user_carb*100):.2f}"
-            temp_result.prot_rate = f"{(total_prot/user_prot*100):.2f}"
-            temp_result.fat_rate =  f"{(total_fat/user_fat*100):.2f}"
-            temp_result.sodium_rate =  f"{(total_sodium/user_sodium*100):.2f}"
-            temp_result.total_cal = f"{(total_cal/user_cal*100):.2f}"
-        temp_result.save()
-
-        data = self.request.POST['eaten_dt']
-        print(data)
+            result.save()
 
         return HttpResponseRedirect(reverse('upload:detail',kwargs=({'eaten_dt':data})))
 

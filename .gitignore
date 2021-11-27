@@ -105,3 +105,4 @@ test.py
 
 nutrition/settings.py
 upload/detection/imageDetection.py
+/upload/views(test).py

@@ -49,7 +49,6 @@ class UserEatenForm(ModelForm):
             'eaten_dt':'',
         }
 
-
 SERVE = [
     ('','-----------'),
     (0.5, 0.5),

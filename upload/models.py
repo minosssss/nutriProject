@@ -50,11 +50,11 @@ class UploadResult(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, db_column='user_id')
     upload_id = models.ForeignKey(Upload, db_column="upload_id", on_delete=models.CASCADE)
     food_id = models.ForeignKey(FoodBio, db_column='food_id', on_delete=models.CASCADE, max_length=20, null=True)
-    carb_rate = models.FloatField(blank=True, null=True)
-    prot_rate = models.FloatField(blank=True, null=True)
-    fat_rate = models.FloatField(blank=True, null=True)
-    sodium_rate = models.FloatField(blank=True, null=True)
-    total_cal = models.FloatField(blank=True, null=True)
+    carb = models.FloatField(blank=True, null=True)
+    prot = models.FloatField(blank=True, null=True)
+    fat = models.FloatField(blank=True, null=True)
+    sodium = models.FloatField(blank=True, null=True)
+    cal = models.FloatField(blank=True, null=True)
     eaten_dt = models.DateField(auto_created=False)
 
     def __str__(self):

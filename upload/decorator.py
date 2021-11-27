@@ -24,7 +24,6 @@ def ownership_user(func):
     def decorated(request,*args,**kwargs):
         user = request.user.pk
         search = UploadResult.objects.filter(user_id=user,eaten_dt=kwargs['eaten_dt'])
-        print(search)
         if user == None:
             messages.info(request, "Please Login!")
             return redirect('accounts:login')
