@@ -52,10 +52,10 @@ class SignUpForm(forms.ModelForm):
     def clean(self):  # 요청파라미터 값들 조회
         cleaned_data = super().clean() # dictionary 반환.
         password = cleaned_data.get('password')
-        password_check = cleaned_data.get('password_check') #password와 password_check 같은지 체크
+        password_check = cleaned_data.get('password_check') #password 중복체크
         if password != password_check:
             self.add_error('password', '비밀번호가 일치하지 않습니다.')
-            self.add_error('password_check', '비밀번호가 일치하지 않습니다.') # 이메일(아이디) 중복 체크
+            self.add_error('password_check', '비밀번호가 일치하지 않습니다.')
 
 class UserUpdateForm(SignUpForm):
     def __init__(self, *args, **kwargs):

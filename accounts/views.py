@@ -46,14 +46,17 @@ class SignUpView(FormView):
 
     def form_valid(self, form):
         temp_user = form.save(commit=False)
-        temp_user.n_code = Standard.objects.get(gender=self.request.POST['gender'] , age_category=self.request.POST['age_category'])
+        temp_user.n_code = Standard.objects.get(gender=self.request.POST['gender'],
+                                                age_category=self.request.POST['age_category'])
         weight = self.request.POST['weight']
         height = self.request.POST['height']
         activity = self.request.POST['activity']
         if self.request.POST['gender'] == 1:
-            temp_user.proper_cal = round((66.47 + (13.75 * float(weight)) + (5 * float(height)) - (6.76 * 30))*float(activity))
+            temp_user.proper_cal \
+                = round((66.47 + (13.75 * float(weight)) + (5 * float(height)) - (6.76 * 30))*float(activity))
         else:
-            temp_user.proper_cal = round((655.1 + (9.56 * float(weight)) + (1.85 * float(height)) - (4.68 * 30))*float(activity))
+            temp_user.proper_cal \
+                = round((655.1 + (9.56 * float(weight)) + (1.85 * float(height)) - (4.68 * 30))*float(activity))
         temp_user.save()
         user_id = form.cleaned_data.get("user_id")
         password = form.cleaned_data.get("password")

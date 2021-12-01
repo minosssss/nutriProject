@@ -37,7 +37,7 @@
             <div class="detail">
                 <fieldset disabled="">
                     <label class="form-label" for="disabledInput">Gender</label>
-                    <input class="form-control" id="disabledInput" type="text" placeholder="{{ target_user.gender }}" disabled="">
+                    <input class="form-control gender" id="disabledInput" type="text" placeholder="{{ target_user.gender }}" disabled="">
                 </fieldset>
             </div>
             <div class="detail">
@@ -63,7 +63,15 @@
 
 
 
+        <script>
+            const gender = document.querySelector('.gender');
 
+            if (gender.placeholder == 1){
+                gender.placeholder = 'Male';
+            } else {
+                gender.placeholder = 'Female';
+            };
+        </script>
     </div>
 
 {% endblock %}

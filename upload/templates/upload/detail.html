@@ -163,8 +163,6 @@
             </div>
         </div>
     </div>
-
-
     <section class="py-5">
         <div class="container px-5 my-2">
             <div class="row gx-5 justify-content-center">
@@ -180,12 +178,11 @@
                 <div class="col-lg-4 mb-5">
                     <div class="card h-100 shadow border-0">
                         <div class="badge bg-primary text-white position-absolute" style="top: 1rem; right: 1rem">아침</div>
-                        <img class="card-img-top" src="/food_img/{{ morning_img.upload_id__image }}" alt="" />
-
+                        <img class="card-img-top detail-image" src="/food_img/{{ morning_info.upload_id__image }}" alt="" />
                         <div class="card-body p-4">
                             <div class="d-grid gap-2">
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="#">MORE INFO</a></div>
+                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="/detail/info/{{ morning_info.upload_id }}">MORE INFO</a></div>
                                 </div>
                             </div>
                             <div class="row">
@@ -207,12 +204,12 @@
                 <div class="col-lg-4 mb-5">
                     <div class="card h-100 shadow border-0">
                         <div class="badge bg-primary text-white position-absolute" style="top: 1rem; right: 1rem">점심</div>
-                        <img class="card-img-top" src="/food_img/{{ lunch_img.upload_id__image }}" alt="" onload="resize(this)"/>
+                        <img class="card-img-top detail-image" src="/food_img/{{ lunch_info.upload_id__image }}" alt="" onload="resize(this)"/>
 
                         <div class="card-body p-4">
                             <div class="d-grid gap-2">
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="#">MORE INFO</a></div>
+                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="/detail/info/{{ lunch_info.upload_id }}">MORE INFO</a></div>
                                 </div>
                             </div>
                             <div class="row">
@@ -233,12 +230,12 @@
                 <div class="col-lg-4 mb-5">
                     <div class="card h-100 shadow border-0">
                         <div class="badge bg-primary text-white position-absolute" style="top: 1rem; right: 1rem">저녁</div>
-                        <img class="card-img-top" src="/food_img/{{ dinner_img.upload_id__image }}" alt="" />
+                        <img class="card-img-top detail-image" src="/food_img/{{ dinner_info.upload_id__image }}" alt="" />
 
                         <div class="card-body p-4">
                             <div class="d-grid gap-2">
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="#">MORE INFO</a></div>
+                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="/detail/info/{{ dinner_info.upload_id }}">MORE INFO</a></div>
                                 </div>
                             </div>
                             <div class="row">

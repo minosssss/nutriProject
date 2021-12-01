@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, TemplateView
+from django.views.generic import CreateView, TemplateView, DetailView
 
 from accounts.models import Standard
 from upload.detection.imageDetection import imageDetection
@@ -36,6 +36,72 @@ class UploadView(CreateView):
 
     def get_success_url(self):
         return reverse('upload:temp',kwargs={'pk':self.object.pk})
+
+class UploadDetailView(TemplateView):
+    template_name = 'upload/info.html'
+    queryset = Upload.objects.all()
+    pk_url_kwargs = 'pk'
+
+    def get_object(self, queryset=None):
+        queryset = queryset or self.queryset
+        pk = self.kwargs.get(self.pk_url_kwargs)
+        return queryset.filter(pk=pk).first()
+
+    def get(self, request, *args, **kwargs):
+        result = self.get_object()
+        user = self.request.user
+
+        # 개인 데이터 가져오기 (백분율 구하기 및 페이지에 각 수치 보여주기)
+        user_nutri_data = Standard.objects.values('carb', 'prot', 'fat', 'sodium').get(n_code=user.n_code)
+        user_carb = user_nutri_data['carb']
+        user_prot = user_nutri_data['prot']
+        user_fat = user_nutri_data['fat']
+        user_sodium = user_nutri_data['sodium']
+        user_cal = user.proper_cal
+
+        meal = UploadResult.objects.values('cal','carb','prot','fat','sodium').filter(upload_id=result.id)
+        # 업로드ID의 영양정보 가져오기
+        bio = []
+        for food in meal:
+            get_food_bio = food
+            bio.append(get_food_bio)
+
+        # 가져온 음식 영양정보 합치기
+        total_cal = sum(item['cal'] for item in bio)
+        total_carb = sum(item['carb'] for item in bio)
+        total_prot = sum(item['prot'] for item in bio)
+        total_fat = sum(item['fat'] for item in bio)
+        total_sodium = sum(item['sodium'] for item in bio)
+
+        cal_rate = f"{(total_cal / user_cal * 100):.2f}"
+        carb_rate = f"{(total_carb / user_carb * 100):.2f}"
+        prot_rate = f"{(total_prot / user_prot * 100):.2f}"
+        fat_rate = f"{(total_fat / user_fat * 100):.2f}"
+        sodium_rate = f"{(total_sodium / user_sodium * 100):.2f}"
+        food = self.get_food()
+        ctx = {
+            'result': result,
+            'food':food,
+            'user_nutri_data': user_nutri_data,
+            'cal_rate': cal_rate,
+            'carb_rate': carb_rate,
+            'prot_rate': prot_rate,
+            'fat_rate': fat_rate,
+            'sodium_rate': sodium_rate,
+            'total_cal': total_cal,
+            'total_carb': total_carb,
+            'total_prot': total_prot,
+            'total_fat': total_fat,
+            'total_sodium': total_sodium,
+        }
+
+        return self.render_to_response(ctx)
+
+    def get_food(self):
+        imgURL = settings.MEDIA_URL
+        img = f"{imgURL}{self.get_object().image}"
+        food = imageDetection(settings.MEDIA_ROOT_URL + img)
+        return food
 
 
 def notice_delete_view(request, pk):
@@ -180,21 +246,21 @@ class UploadResultView(TemplateView):
         sodium_rate = f"{(total_sodium / user_sodium * 100):.2f}"
 
         morning = result.select_related('upload_id').values_list('food_id__food_nm',flat=True).filter(upload_id__mealtimes=1)
-        morning_img = morning.values('upload_id__image').first()
+        morning_info = morning.values('upload_id__image', 'upload_id').first()
         lunch = result.select_related('upload_id').values_list('food_id__food_nm', flat=True).filter(
             upload_id__mealtimes=2)
-        lunch_img = lunch.values('upload_id__image').first()
+        lunch_info = lunch.values('upload_id__image', 'upload_id').first()
         dinner = result.select_related('upload_id').values_list('food_id__food_nm', flat=True).filter(
             upload_id__mealtimes=3)
-        dinner_img = dinner.values('upload_id__image').first()
-        print(morning_img)
+        dinner_info = dinner.values('upload_id__image', 'upload_id').first()
+
         ctx = {
             'morning':morning,
-            'morning_img':morning_img,
+            'morning_info':morning_info,
             'lunch': lunch,
-            'lunch_img':lunch_img,
+            'lunch_info':lunch_info,
             'dinner': dinner,
-            'dinner_img':dinner_img,
+            'dinner_info':dinner_info,
             'result': result,
             'info':info,
             'date': result.first(),
