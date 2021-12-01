@@ -6,7 +6,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from django.utils.decorators import method_decorator
-from django.views.generic import CreateView, TemplateView, DetailView
+from django.views.generic import CreateView, TemplateView, DetailView, ListView
 
 from accounts.models import Standard
 from upload.detection.imageDetection import imageDetection
@@ -103,6 +103,21 @@ class UploadDetailView(TemplateView):
         food = imageDetection(settings.MEDIA_ROOT_URL + img)
         return food
 
+class UploadResultListView(TemplateView):
+    template_name = 'upload/list.html'
+    queryset = UploadResult.objects.all()
+
+    def get_object(self, queryset=None):
+        queryset = queryset or self.queryset
+        pk = self.request.user.id
+        return queryset.filter(user_id=pk).values('eaten_dt').order_by('eaten_dt').distinct()
+
+    def get(self, request, *args, **kwargs):
+        eaten_dt = self.get_object()
+        ctx = {
+            'eaten_dt': eaten_dt
+        }
+        return self.render_to_response(ctx)
 
 def notice_delete_view(request, pk):
     temp_upload = Upload.objects.get(id=pk)

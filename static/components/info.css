@@ -5,3 +5,13 @@
     width: 100%;
 }
 
+
+#list_form {
+  display: flex;
+  margin: 50px auto;
+  padding: 10px;
+  flex-direction: column;
+  width: 30rem;
+  height: 70rem;
+  min-width: 450px;
+}

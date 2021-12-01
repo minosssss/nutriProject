@@ -15,7 +15,8 @@ Including another URLconf
 """
 
 from django.urls import path, include
-from upload.views import UploadView, notice_delete_view, UploadTempView, UploadResultView, UploadDetailView
+from upload.views import UploadView, notice_delete_view, UploadTempView, UploadResultView, UploadDetailView, \
+    UploadResultListView
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -28,6 +29,7 @@ urlpatterns = [
     path('detail/info/<int:pk>',UploadDetailView.as_view(), name='detail_info'),
     path('temp/<int:pk>/delete/',notice_delete_view, name='delete'),
     path('temp/<int:pk>',UploadTempView.as_view(), name='temp'),
+    path('list/',UploadResultListView.as_view(), name='list'),
 
 
 ]
