@@ -28,7 +28,7 @@ def ownership_user(func):
             messages.info(request, "Please Login!")
             return redirect('accounts:login')
         if len(search) == 0:
-            messages.info(request, "You can't see")
+            messages.info(request, "Page not found.")
             return redirect('upload:main')
         return func(request, *args, **kwargs)
     return decorated

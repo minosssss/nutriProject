@@ -2,111 +2,267 @@
 {% load bootstrap4 %}
 {% load static %}
 {% block content %}
-
+    <!-- result , info 리스트형태로 전달 됨 -->
+    <!-- date , user_nutri_data, user 객체형태로 전달 됨 -->
     <!-- Section-->
-    <section>
-    detail
-        {{ upload }}
-        {% if result %}
-            {% for i in result %}
-            {{ i.eaten_dt }}
-            {% endfor %}
-        {% endif %}
 
-{#        <div class="main-text">#}
-{#            <h2 class="display-5 fw-bolder">{{ upload_result.created_at | date:"m월d일"}}</h2>#}
-{#            <h4 class="display-5"> {{ upload_result.mealtimes }} 식사 영양정보</h4>#}
-{#        </div>#}
-{#        <form action="{% url 'upload:detail' pk=result.pk %}" method="post" enctype="multipart/form-data">#}
-{#            {% csrf_token %}#}
-{#            <div class="img-container">#}
-{#                <div class="wrapper">#}
-{#                    <div class="image">#}
-{#                        <img src='{{ upload_result.image.url }}' alt='' />#}
-{#                    </div>#}
-{#                    <div id="img-name">File name here</div>#}
-{#                </div>#}
-{#                <button type="button" id="custom-btn" class="btn btn-dark openModalBtn">#}
-{#                    REPOST#}
-{#                </button>#}
-{#                <!-- 모달 영역 -->#}
-{#                <div id="modalBox" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">#}
-{#                    <div class="modal-dialog" role="document">#}
-{#                        <div class="modal-content">#}
-{#                            <div class="modal-header">#}
-{#                                <h4 class="modal-title" id="myModalLabel">Information</h4>#}
-{#                            </div>#}
-{#                            <div class="modal-body">#}
-{#                                메인페이지로 돌아갑니다.#}
-{#                            </div>#}
-{#                            <div class="modal-footer">#}
-{#                                <button type="button" class="btn btn-primary"  onclick="delete_modal()" >확인</button>#}
-{#                                <button type="button" class="btn btn-default" id="closeModalBtn">취소</button>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="alert alert-dismissible alert-primary">#}
-{#                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>#}
-{#                    <strong>Please!</strong> choose how many servings it is!#}
-{#                </div>#}
-{##}
-{#                {% if food %}#}
-{#                    {% for i in food %}#}
-{#                        <div class="accordion">#}
-{#                        <div class="accordion-item">#}
-{#                            <h2 class="accordion-header" id="heading{{ forloop.counter }}">#}
-{#                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false" aria-controls="collapse{{ forloop.counter }}">#}
-{#                                    <strong>{{ i }}</strong>#}
-{#                                </button>#}
-{#                            </h2>#}
-{#                            <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse" aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">#}
-{#                                <div class="accordion-body">#}
-{#                                    <fieldset class="form-group">#}
-{#                                        <h5 class="mt-4">How many servings did you eat?</h5>#}
-{#                                        <div id="serve_number" >#}
-{#                                            <label class="form-check-label">#}
-{#                                                <input type="radio" class="form-check-input" name="food{{ forloop.counter }}" id="optionsRadios1" value="option1">#}
-{#                                                <span>0.5</span>#}
-{#                                            </label>#}
-{##}
-{#                                            <label class="form-check-label">#}
-{#                                                <input type="radio" class="form-check-input" name="food{{ forloop.counter }}" id="optionsRadios2" value="option2">#}
-{#                                                <span>1.0</span>#}
-{#                                            </label>#}
-{##}
-{#                                            <label class="form-check-label">#}
-{#                                                <input type="radio" class="form-check-input" name="food{{ forloop.counter }}" id="optionsRadios3" value="option3">#}
-{#                                                <span>1.5</span>#}
-{#                                            </label>#}
-{#                                        </div>#}
-{#                                    </fieldset>#}
-{#                                </div>#}
-{#                            </div>#}
-{#                        </div>#}
-{#                    {% endfor %}#}
-{#                {% endif %}#}
-{#                <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="upload">#}
-{#                <button class="btn btn-primary mt-4 mb-4" id="custom-btn">#}
-{#                    <a class="text-white" style="text-decoration: none;" href="{% url 'upload:result' pk=upload_result.pk %}">CHANGE INFO</a>#}
-{#                </button>#}
-                </div>
-        </form>
+    <section>
+        <div class="blind" style="height: 35rem;"></div>
+        <div class="main-text">
+            <h2 class="display-5 fw-bolder">{{ date.eaten_dt | date:"m월d일"}}</h2>
+            <h4 class="display-5"> {{ user.name }}님의 섭취 영양소</h4>
+            <span>*해당 영양정보는 1인분 기준의 표준정보이며, 음식양과 레시피에 따라 차이가 발생할 수 있습니다.</span>
+
+        </div>
+
+
+
+        <div class="blind" style="height: 35rem;"></div>
         <script src="{% static 'js/upload.js' %}"></script>
         <script>
 
-            // 모달 버튼에 이벤트를 건다.
-            $('.openModalBtn').on('click', function(){
-                $('#modalBox').modal('show');
-            });
-            // 모달 안의 취소 버튼에 이벤트를 건다.
-            $('#closeModalBtn').on('click', function(){
-                $('#modalBox').modal('hide');
-            });
-            function delete_modal() {
-                location.replace('/temp/{{ upload_result.pk }}/delete/');
-            }
-        </script>
+            $('section').show( function() {
+                $('.blind').slideUp(2000);
 
+            });
+
+            $(document).ready(function(){
+                $('.progress-value > span').each(function(){
+                    $(this).prop('Counter',0).animate({
+                        Counter: $(this).text()
+                    },{
+                        duration: 2000,
+                        easing: 'swing',
+                        step: function (now){
+                            $(this).text(Math.ceil(now));
+                        }
+                    });
+                });
+            });
+
+            $(document).ready(function() {
+                const danger = document.querySelectorAll('.rate');
+                const dangerSelect = document.querySelectorAll('.progress-bar')
+                for (let i=0; i < danger.length; i++) {
+                    if (danger[i].innerText > 100){
+                        dangerSelect[i].classList.add('bg-danger');
+                    } else if (danger[i].innerText < 30) {
+                        dangerSelect[i].classList.add('bg-success');
+                    }
+                }
+                });
+
+        </script>
     </section>
+    <!-- Testimonial section-->
+    <div class="py-5 bg-light">
+        <div class="container">
+            <div class="container">
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <h3 class="progress-title">칼로리</h3>
+                        <div class="progress-outer">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped" style="width:{{ cal_rate }}%;"></div>
+                                <div class="progress-value"><span class="rate">{{ cal_rate }}</span>%</div>
+                            </div>
+                        </div>
+
+                        <h3 class="progress-title">탄수화물</h3>
+                        <div class="progress-outer">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped " style="width:{{ carb_rate }}%;"></div>
+                                <div class="progress-value"><span class="rate">{{ carb_rate }}</span>%</div>
+                            </div>
+                        </div>
+                        <h3 class="progress-title">단백질</h3>
+                        <div class="progress-outer">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped " style="width:{{ prot_rate }}%;"></div>
+                                <div class="progress-value"><span class="rate">{{ prot_rate }}</span>%</div>
+                            </div>
+                        </div>
+                        <h3 class="progress-title">지방</h3>
+                        <div class="progress-outer">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped " style="width:{{ fat_rate }}%;"></div>
+                                <div class="progress-value"><span class="rate">{{ fat_rate }}</span>%</div>
+                            </div>
+                        </div>
+                        <h3 class="progress-title">나트륨</h3>
+                        <div class="progress-outer">
+                            <div class="progress">
+                                <div class="progress-bar progress-bar-striped" style="width:{{ sodium_rate }}%;"></div>
+                                <div class="progress-value"><span class="rate">{{ sodium_rate }}</span>%</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6 personal">
+
+                        <div class="card mb-3">
+                            <h3 class="card-header">Personal</h3>
+                            <div class="card-body">
+                                <h4 class="card-title">영양소 섭취 기준</h4>
+                                <h6 class="card-subtitle text-muted">출처: 보건복지부 <한국인 영양소 섭취기준></h6>
+                            </div>
+                            <div class="card-footer p-4 pt-0 bg-transparent border-top-0">
+                                <div class="align-items-center">
+                                    <table class="table small">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col"></th>
+                                            <th scope="col">{{ date.eaten_dt | date:"m월d일"}} 섭취량</th>
+                                            <th scope="col">권장 섭취량</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr class="table-primary">
+                                            <th scope="row">칼로리(kcal)</th>
+                                            <td>{{ total_cal|floatformat:2}}</td>
+                                            <td>{{ user.proper_cal }}</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr class="">
+                                            <th scope="row">탄수화물(g)</th>
+                                            <td>{{ total_carb|floatformat:2 }}</td>
+                                            <td>{{ user.n_code.carb }}</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr class="">
+                                            <th scope="row">단백질(g)</th>
+                                            <td>{{ total_prot|floatformat:2 }}</td>
+                                            <td>{{ user.n_code.prot }}</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr class="">
+                                            <th scope="row">지방(g)</th>
+                                            <td>{{ total_fat|floatformat:2 }}</td>
+                                            <td>{{ user.n_code.fat }}</td>
+                                        </tr>
+                                        </tbody>
+                                        <tbody>
+                                        <tr class="">
+                                            <th scope="row">나트륨(mg)</th>
+                                            <td>{{ total_sodium|floatformat:2 }}</td>
+                                            <td>{{ user.n_code.sodium }}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <section class="py-5">
+        <div class="container px-5 my-2">
+            <div class="row gx-5 justify-content-center">
+                <div class="col-lg-8 col-xl-6">
+                    <div class="text-center">
+                        <h2 class="fw-bolder">식사 시간별 정보</h2>
+                        <p class="lead fw-normal text-muted mb-5">오늘 드셨던 음식을 확인해보세요!</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row gx-5">
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <div class="badge bg-primary text-white position-absolute" style="top: 1rem; right: 1rem">아침</div>
+                        <img class="card-img-top" src="/food_img/{{ morning_img.upload_id__image }}" alt="" />
+
+                        <div class="card-body p-4">
+                            <div class="d-grid gap-2">
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="#">MORE INFO</a></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <ul class="list-group small">
+                                        {% for food in morning %}
+                                            <li class="food-list list-group-item d-flex justify-content-between align-items-center">
+                                                {{ food }}
+                                                <span class="badge bg-warning">...</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <div class="badge bg-primary text-white position-absolute" style="top: 1rem; right: 1rem">점심</div>
+                        <img class="card-img-top" src="/food_img/{{ lunch_img.upload_id__image }}" alt="" onload="resize(this)"/>
+
+                        <div class="card-body p-4">
+                            <div class="d-grid gap-2">
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="#">MORE INFO</a></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+                                    <ul class="list-group small">
+                                        {% for food in lunch %}
+                                            <li class="food-list list-group-item d-flex justify-content-between align-items-center">
+                                                {{ food }}
+                                                <span class="badge bg-warning">...</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 mb-5">
+                    <div class="card h-100 shadow border-0">
+                        <div class="badge bg-primary text-white position-absolute" style="top: 1rem; right: 1rem">저녁</div>
+                        <img class="card-img-top" src="/food_img/{{ dinner_img.upload_id__image }}" alt="" />
+
+                        <div class="card-body p-4">
+                            <div class="d-grid gap-2">
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="#">MORE INFO</a></div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-12">
+
+                                    <ul class="list-group small">
+                                        {% for food in dinner %}
+                                            <li class="food-list list-group-item d-flex justify-content-between align-items-center">
+                                                {{ food }}
+                                                <span class="badge bg-warning">...</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+        </div>
+    </section>
+
+
 {% endblock %}

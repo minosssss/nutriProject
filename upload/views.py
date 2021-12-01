@@ -129,7 +129,7 @@ class UploadResultView(TemplateView):
     queryset = UploadResult.objects.all()
     pk_url_kwargs = 'eaten_dt'
 
-    def get_object(self, queryset=None):
+    def get_object_result(self, queryset=None):
         queryset = queryset or self.queryset
         dt = self.kwargs.get(self.pk_url_kwargs)
         user = self.request.user.pk
@@ -140,9 +140,76 @@ class UploadResultView(TemplateView):
         return result
 
     def get(self, request, *args, **kwargs):
-        result = self.get_object()
+        #요청한 유저 체크
+        user = self.request.user
+        #[업로드 결과(영양정보)] 유저의 upload_result 가져오기 (URL의 일자만 가져옴)
+        result = self.get_object_result()
 
+        #[이미지 정렬_id필터]upload_id (upload_info테이블) 필터
+        filter_upload = result.values('upload_id')
+
+
+        #[이미지정렬] upload_info 의 해당 일자 'mealtimes' 정렬하여 가져오기
+        info = Upload.objects.filter(id__in=filter_upload,user_id=user.pk).all().order_by('mealtimes')
+
+        #개인 데이터 가져오기 (백분율 구하기 및 페이지에 각 수치 보여주기)
+        user_nutri_data = Standard.objects.values('carb', 'prot', 'fat', 'sodium').get(n_code=user.n_code)
+        user_carb = user_nutri_data['carb']
+        user_prot = user_nutri_data['prot']
+        user_fat = user_nutri_data['fat']
+        user_sodium = user_nutri_data['sodium']
+        user_cal = user.proper_cal
+
+        #해당일자 영양정보 가져오기
+        bio = []
+        food_list = result.values('food_id')
+        for food in food_list.values('cal', 'carb', 'prot', 'fat', 'sodium'):
+            get_food_bio = food
+            bio.append(get_food_bio)
+        #가져온 음식 영양정보 합치기
+        total_cal = sum(item['cal'] for item in bio)
+        total_carb = sum(item['carb'] for item in bio)
+        total_prot = sum(item['prot'] for item in bio)
+        total_fat = sum(item['fat'] for item in bio)
+        total_sodium = sum(item['sodium'] for item in bio)
+
+        cal_rate = f"{(total_cal / user_cal * 100):.2f}"
+        carb_rate = f"{(total_carb / user_carb * 100):.2f}"
+        prot_rate = f"{(total_prot / user_prot * 100):.2f}"
+        fat_rate = f"{(total_fat / user_fat * 100):.2f}"
+        sodium_rate = f"{(total_sodium / user_sodium * 100):.2f}"
+
+        morning = result.select_related('upload_id').values_list('food_id__food_nm',flat=True).filter(upload_id__mealtimes=1)
+        morning_img = morning.values('upload_id__image').first()
+        lunch = result.select_related('upload_id').values_list('food_id__food_nm', flat=True).filter(
+            upload_id__mealtimes=2)
+        lunch_img = lunch.values('upload_id__image').first()
+        dinner = result.select_related('upload_id').values_list('food_id__food_nm', flat=True).filter(
+            upload_id__mealtimes=3)
+        dinner_img = dinner.values('upload_id__image').first()
+        print(morning_img)
         ctx = {
-            'result': result
+            'morning':morning,
+            'morning_img':morning_img,
+            'lunch': lunch,
+            'lunch_img':lunch_img,
+            'dinner': dinner,
+            'dinner_img':dinner_img,
+            'result': result,
+            'info':info,
+            'date': result.first(),
+            'user':user,
+            'user_nutri_data':user_nutri_data,
+            'cal_rate':cal_rate,
+            'carb_rate': carb_rate,
+            'prot_rate':prot_rate,
+            'fat_rate':fat_rate,
+            'sodium_rate':sodium_rate,
+            'total_cal':total_cal,
+            'total_carb': total_carb,
+            'total_prot': total_prot,
+            'total_fat': total_fat,
+            'total_sodium': total_sodium,
         }
+
         return self.render_to_response(ctx)

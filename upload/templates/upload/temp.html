@@ -6,7 +6,7 @@
     <section>
         <div class="main-text">
             <h2 class="display-5 fw-bolder">{{ data.created_at | date:"m월d일"}}</h2>
-            <h4 class="display-5"> {{ data.mealtimes }} 식사 영양정보</h4>
+            <h4 class="display-5 meal"> {{ data.mealtimes }} 식사 영양정보</h4>
         </div>
         <form action="{% url 'upload:temp' pk=data.pk %}" method="post" enctype="multipart/form-data">
 
@@ -62,20 +62,6 @@
                                         <h5 class="mt-4">How many servings did you eat?</h5>
                                         <div id="serve_number" >
                                             {% bootstrap_form serve %}
-                                            {#                                            <label class="form-check-label">#}
-                                            {#                                                <input type="radio" class="form-check-input" name="serve" id="optionsRadios1" value="option1">#}
-                                            {#                                                <span>0.5</span>#}
-                                            {#                                            </label>#}
-                                            {##}
-                                            {#                                            <label class="form-check-label">#}
-                                            {#                                                <input type="radio" class="form-check-input" name="serve" id="optionsRadios2" value="option2">#}
-                                            {#                                                <span>1.0</span>#}
-                                            {#                                            </label>#}
-                                            {##}
-                                            {#                                            <label class="form-check-label">#}
-                                            {#                                                <input type="radio" class="form-check-input" name="serve" id="optionsRadios3" value="option3">#}
-                                            {#                                                <span>1.5</span>#}
-                                            {#                                            </label>#}
                                         </div>
                                     </fieldset>
                                 </div>
@@ -89,7 +75,17 @@
         </form>
         <script src="{% static 'js/upload.js' %}"></script>
         <script>
-
+            $('.bagde').ready(function() {
+                const meal = document.getElementsByClassName('meal');
+                const text = '식사 영양 정보'
+                if (meal) {
+                    meal[0].textContent = '아침' + text;
+                    meal[1].textContent = '점심' + text;
+                    meal[2].textContent = '저녁' + text;
+                } else {
+                    return;
+                }
+            });
             // 모달 버튼에 이벤트를 건다.
             $('.openModalBtn').on('click', function(){
                 $('#modalBox').modal('show');

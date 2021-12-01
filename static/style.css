@@ -2,6 +2,7 @@
 @import "components/nav-bar.css";
 @import "components/upload.css";
 @import "components/signup.css";
+@import "components/detail.css";
 
 
 
@@ -57,3 +58,4 @@ input{
 #main_upload-page .form-group:first-child{
     display: none;
 }
+
