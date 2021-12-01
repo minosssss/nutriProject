@@ -132,7 +132,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-Log
+#Log
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
