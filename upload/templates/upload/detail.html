@@ -7,12 +7,32 @@
     <!-- Section-->
 
     <section>
+
+        <button type="button" id="custom-btn"  class="openModalBtn btn btn-dark rounded-circle">
+            <i class="far fa-calendar-alt"></i>
+        </button>
+        <!-- 모달 영역 -->
+        <div id="modalBox" class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="myModalLabel">Calendar</h4>
+                    </div>
+                    <div class="modal-body">
+                        {% bootstrap_form dateform %}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary"  onclick="datePicker()" >확인</button>
+                        <button type="button" class="btn btn-default" id="closeModalBtn">취소</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="blind" style="height: 35rem;"></div>
         <div class="main-text">
             <h2 class="display-5 fw-bolder">{{ date.eaten_dt | date:"m월d일"}}</h2>
             <h4 class="display-5"> {{ user.name }}님의 섭취 영양소</h4>
             <span>*해당 영양정보는 1인분 기준의 표준정보이며, 음식양과 레시피에 따라 차이가 발생할 수 있습니다.</span>
-
         </div>
 
 
@@ -50,7 +70,20 @@
                         dangerSelect[i].classList.add('bg-success');
                     }
                 }
-                });
+            });
+            // 모달 버튼에 이벤트를 건다.
+            $('.openModalBtn').on('click', function(){
+                $('#modalBox').modal('show');
+            });
+            // 모달 안의 취소 버튼에 이벤트를 건다.
+            $('#closeModalBtn').on('click', function(){
+                $('#modalBox').modal('hide');
+            });
+            function datePicker() {
+                let eatenDate = document.querySelector('#id_eaten_dt')
+                eatenDt = eatenDate.value
+                location.replace("/detail/"+ eatenDt);
+            }
 
         </script>
     </section>
@@ -259,6 +292,8 @@
         </div>
         </div>
         </div>
+
+
     </section>
 
 

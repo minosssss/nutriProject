@@ -268,6 +268,8 @@ class UploadResultView(TemplateView):
         dinner = result.select_related('upload_id').values_list('food_id__food_nm', flat=True).filter(
             upload_id__mealtimes=3)
         dinner_info = dinner.values('upload_id__image', 'upload_id').first()
+        dateform = UserEatenForm()
+
 
         ctx = {
             'morning':morning,
@@ -291,6 +293,7 @@ class UploadResultView(TemplateView):
             'total_prot': total_prot,
             'total_fat': total_fat,
             'total_sodium': total_sodium,
+            'dateform':dateform
         }
 
         return self.render_to_response(ctx)
