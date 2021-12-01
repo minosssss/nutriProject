@@ -1,10 +1,12 @@
 from django.conf import settings
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 from django.http import HttpResponseRedirect, Http404
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
+from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.views.generic import CreateView, TemplateView, DetailView, ListView
 
@@ -31,6 +33,7 @@ class UploadView(CreateView):
     def form_valid(self, form):
         temp_upload = form.save(commit=False)
         temp_upload.user = self.request.user
+        #time = timezone.now().strftime("%Y-%m-%d")
         temp_upload.save()
         return super().form_valid(form)
 
@@ -297,3 +300,13 @@ class UploadResultView(TemplateView):
         }
 
         return self.render_to_response(ctx)
+
+    def post(self, request, *args, **kwargs):
+        post_date = kwargs['eaten_dt']
+        date = self.request.POST['eaten_dt']
+        check_date = UploadResult.objects.filter(eaten_dt=date).first()
+        if check_date is None:
+            messages.info(self.request, "해당 일자에는 데이터가 없습니다.")
+            return HttpResponseRedirect(reverse('upload:detail', kwargs=({'eaten_dt': post_date})))
+        else:
+            return HttpResponseRedirect(reverse('upload:detail',kwargs=({'eaten_dt':date})))
