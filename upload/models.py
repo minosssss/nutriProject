@@ -20,7 +20,7 @@ class Upload(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='upload_user', blank=True, null=True)
     image = models.ImageField(upload_to=upload_to_func, null=False, max_length=200)
     created_at = models.DateField(auto_now_add=True, null=True)
-    mealtimes = models.IntegerField(choices=MEALTIME_CHOICE, max_length=20)
+    mealtimes = models.IntegerField(choices=MEALTIME_CHOICE)
 
     def __str__(self):
         return f'{self.user, self.created_at, self.mealtimes, self.image}'

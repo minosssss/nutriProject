@@ -34,6 +34,12 @@ class UserUploadForm(ModelForm):
             check_date = Upload.objects.get(created_at=time,mealtimes=mealtimes)
             if check_date:
                 mealtimes == check_date.mealtimes
+                if mealtimes == 1:
+                    mealtimes = '아침'
+                elif mealtimes == 2:
+                    mealtimes = '점심'
+                else:
+                    mealtimes = '저녁'
                 self.add_error('mealtimes',f'{mealtimes}은 등록이 되어있습니다 :) ')
         except:
             pass
