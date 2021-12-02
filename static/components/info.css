@@ -1,0 +1,21 @@
+.info-image {
+    object-fit: cover;
+    max-height: 600px;
+    min-height: 300px;
+    width: 100%;
+}
+
+
+#list_form {
+  display: flex;
+  margin: 50px auto;
+  padding: 10px;
+  flex-direction: column;
+  width: 30rem;
+  height: 65rem;
+  min-width: 450px;
+}
+
+.space {
+    height: 20rem;
+}

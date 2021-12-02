@@ -14,7 +14,7 @@
                     <a class="nav-link active" href="{% url 'upload:main' %}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="#">History</a>
+                    <a class="nav-link" href="{% url 'upload:list' %}">History</a>
                 </li>
                 {% if not user.is_authenticated %}
                 <li class="nav-item">

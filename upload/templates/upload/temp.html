@@ -95,11 +95,13 @@
                 $('#modalBox').modal('hide');
             });
             function delete_modal() {
-                location.replace('/detail/{{ data.pk }}/delete/');
+                location.replace('/temp/{{ data.pk }}/delete/');
             }
 
             const eatenForm =document.getElementById('id_eaten_dt');
-            eatenForm.value = new Date().toISOString().substring(0, 10);
+
+            eatenForm.value = '{{ data.created_at|date:"Y-m-d" }}'
+                //new Date().toISOString().substring(0, 10);
 
         </script>
 
