@@ -40,6 +40,8 @@ class UploadView(CreateView):
     def get_success_url(self):
         return reverse('upload:temp',kwargs={'pk':self.object.pk})
 
+
+@method_decorator(check_user,'get')
 class UploadDetailView(TemplateView):
     template_name = 'upload/info.html'
     queryset = Upload.objects.all()
@@ -106,6 +108,7 @@ class UploadDetailView(TemplateView):
         food = imageDetection(settings.MEDIA_ROOT_URL + img)
         return food
 
+@method_decorator(login_required(),'get')
 class UploadResultListView(TemplateView):
     template_name = 'upload/list.html'
     queryset = UploadResult.objects.all()
@@ -180,10 +183,11 @@ class UploadTempView(TemplateView):
         user_cal = user.proper_cal
 
         food_list = self.get_food()
-        data = self.request.POST['eaten_dt']
+        # data = self.request.POST['eaten_dt']
         upload_id = self.get_object().pk
+        data = self.get_object().created_at
         if UploadResult.objects.filter(upload_id=upload_id).first():
-            raise Http404('이미 존재 합니다.')
+            raise Http404('이미 존재하는 식단입니다. History를 확인해주세요.')
         else:
             pass
         for n in range(len(food_list)):

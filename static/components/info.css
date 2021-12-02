@@ -1,7 +1,7 @@
 .info-image {
     object-fit: cover;
-    max-height: 1000px;
-    min-height: 800px;
+    max-height: 600px;
+    min-height: 300px;
     width: 100%;
 }
 
@@ -14,4 +14,8 @@
   width: 30rem;
   height: 65rem;
   min-width: 450px;
+}
+
+.space {
+    height: 20rem;
 }

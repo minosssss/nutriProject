@@ -24,7 +24,7 @@
                             {% bootstrap_form dateform %}
                         </div>
                         <div class="modal-footer">
-{#                            <button type="button" class="btn btn-primary"  onclick="datePicker()" >확인</button>#}
+                            {#                            <button type="button" class="btn btn-primary"  onclick="datePicker()" >확인</button>#}
                             <input type="submit" class="btn btn-primary mt-8" id="custom-btn" value="확인">
                             <button type="button" class="btn btn-default" id="closeModalBtn">취소</button>
                         </div>
@@ -218,7 +218,11 @@
                         <div class="card-body p-4">
                             <div class="d-grid gap-2">
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="/detail/info/{{ morning_info.upload_id }}">MORE INFO</a></div>
+                                    {% if morning_info.upload_id %}
+                                        <div class="text-center"><a class="btn btn-dark mt-auto" href="{% url 'upload:detail_info' pk=morning_info.upload_id %}">MORE INFO</a></div>
+                                    {% else %}
+                                        <div class="text-center"><a class="btn btn-secondary mt-auto" href="{% url 'upload:main' %}">UPLOAD</a></div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="row">
@@ -245,7 +249,11 @@
                         <div class="card-body p-4">
                             <div class="d-grid gap-2">
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="/detail/info/{{ lunch_info.upload_id }}">MORE INFO</a></div>
+                                    {% if lunch_info.upload_id %}
+                                        <div class="text-center"><a class="btn btn-dark mt-auto" href="{% url 'upload:detail_info' pk=lunch_info.upload_id %}">MORE INFO</a></div>
+                                    {% else %}
+                                        <div class="text-center"><a class="btn btn-secondary mt-auto" href="{% url 'upload:main' %}">UPLOAD</a></div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="row">
@@ -271,7 +279,11 @@
                         <div class="card-body p-4">
                             <div class="d-grid gap-2">
                                 <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                    <div class="text-center"><a class="btn btn-dark mt-auto" href="/detail/info/{{ dinner_info.upload_id }}">MORE INFO</a></div>
+                                    {% if dinner_info.upload_id %}
+                                        <div class="text-center"><a class="btn btn-dark mt-auto" href="{% url 'upload:detail_info' pk=dinner_info.upload_id %}">MORE INFO</a></div>
+                                    {% else %}
+                                        <div class="text-center"><a class="btn btn-secondary mt-auto" href="{% url 'upload:main' %}">UPLOAD</a></div>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="row">
