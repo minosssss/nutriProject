@@ -109,11 +109,16 @@
                 this.$('#modalBox').modal('show');
             };
 
-
             $(document).ready(function() {
                 $('nav').hide();
                 $('footer').hide();
             });
+
+            let checkUnload = true;
+            $(window).on("beforeunload", function() {
+                if (checkUnload) return "가지마 가지마 가지마~~~";
+            });
+
         </script>
 
     </section>
