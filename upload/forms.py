@@ -28,6 +28,7 @@ class UserUploadForm(ModelForm):
             'created_at':'',
         }
 
+<<<<<<< Updated upstream
     def clean(self):  # 요청파라미터 값들 조회
         cleaned_data = super().clean()  # dictionary 반환.
         mealtimes = cleaned_data.get('mealtimes')
@@ -45,6 +46,25 @@ class UserUploadForm(ModelForm):
                 self.add_error('mealtimes',f'선택하신 날의 {mealtimes}은 등록이 되어있습니다 :) ')
         except:
             pass
+=======
+    #def clean(self):  # 요청파라미터 값들 조회
+     #   cleaned_data = super().clean()  # dictionary 반환.
+      #  mealtimes = cleaned_data.get('mealtimes')
+       # time = timezone.now().strftime("%Y-%m-%d")
+        #try:
+         #   check_date = Upload.objects.get(created_at=time,mealtimes=mealtimes)
+          #  if check_date:
+           #     mealtimes == check_date.mealtimes
+            #    if mealtimes == 1:
+             #       mealtimes = '아침'
+              #  elif mealtimes == 2:
+               #     mealtimes = '점심'
+                #else:
+                 #   mealtimes = '저녁'
+                #self.add_error('mealtimes',f'{mealtimes}은 등록이 되어있습니다 :) ')
+#        except:
+ #           pass
+>>>>>>> Stashed changes
 
 class UserEatenForm(ModelForm):
     class Meta:
