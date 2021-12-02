@@ -18,28 +18,34 @@ from upload.models import Upload, UploadResult, FoodBio
 
 user_required = [login_required, check_user]
 
-@method_decorator(login_required, 'post')
+# @method_decorator(login_required, 'post')
 class UploadView(CreateView):
     model = Upload
     form_class = UserUploadForm
     template_name = 'upload/main.html'
 
-    def get_food(self):
-        imgURL = settings.MEDIA_URL
-        img = f"{imgURL}{self.object.image}"
-        food = imageDetection(settings.MEDIA_ROOT_URL + img)
-        return food
-
     def form_valid(self, form):
+        user = self.request.user
+        mealtimes = int(self.request.POST.get('mealtimes'))
+        created_at = self.request.POST.get('created_at')
+        check_eaten = UploadResult.objects.filter(user_id=user.pk,eaten_dt=created_at) \
+            .select_related('upload_id').values_list('upload_id__mealtimes', flat=True).distinct()
+        if mealtimes in check_eaten:
+            if mealtimes == 1:
+                mealtimes = '아침'
+            elif mealtimes == 2:
+                mealtimes = '점심'
+            else:
+                mealtimes = '저녁'
+            messages.info(self.request, f"선택하신 날의 {mealtimes}은 이미 등록 되어있습니다.")
+            return redirect("upload:main")
         temp_upload = form.save(commit=False)
-        temp_upload.user = self.request.user
-        #time = timezone.now().strftime("%Y-%m-%d")
+        temp_upload.user = user
         temp_upload.save()
         return super().form_valid(form)
 
     def get_success_url(self):
         return reverse('upload:temp',kwargs={'pk':self.object.pk})
-
 
 @method_decorator(check_user,'get')
 class UploadDetailView(TemplateView):
@@ -126,9 +132,12 @@ class UploadResultListView(TemplateView):
         return self.render_to_response(ctx)
 
 def notice_delete_view(request, pk):
-    temp_upload = Upload.objects.get(id=pk)
-    if temp_upload.user == request.user or request.user.level == '0':
-        temp_upload.delete()
+    try:
+        temp_upload = Upload.objects.get(id=pk)
+        if temp_upload.user == request.user or request.user.level == '0':
+            temp_upload.delete()
+            return redirect("upload:main")
+    except:
         return redirect("upload:main")
 
 @method_decorator(user_required,'get')

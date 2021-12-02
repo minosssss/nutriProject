@@ -99,10 +99,21 @@
             }
 
             const eatenForm =document.getElementById('id_eaten_dt');
-
             eatenForm.value = '{{ data.created_at|date:"Y-m-d" }}'
-                //new Date().toISOString().substring(0, 10);
+            //new Date().toISOString().substring(0, 10);
 
+            window.history.pushState('test', '', location.href);
+
+            window.onpopstate = () => {
+                history.go(1);
+                this.$('#modalBox').modal('show');
+            };
+
+
+            $(document).ready(function() {
+                $('nav').hide();
+                $('footer').hide();
+            });
         </script>
 
     </section>

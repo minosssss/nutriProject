@@ -3,8 +3,7 @@ import hashlib
 from django.db import models
 
 # Create your models here.
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, UserManager, User, PermissionsMixin
-from django.db.models import Q
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, User, PermissionsMixin
 
 class Standard(models.Model):
     """ Custom User Model """
