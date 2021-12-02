@@ -18,7 +18,7 @@ from upload.models import Upload, UploadResult, FoodBio
 
 user_required = [login_required, check_user]
 
-@method_decorator(check_user, 'post')
+@method_decorator(login_required, 'post')
 class UploadView(CreateView):
     model = Upload
     form_class = UserUploadForm
